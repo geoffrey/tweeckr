@@ -26,9 +26,14 @@ tweeckrApp.controller('mainCtrl', function($scope, $timeout, $location, API_BASE
 
   var getProfileAndLatestTweets = function() {
     getTweeckrUser()
-    .done(function getTweeckrUserWithSuccess(data) {
-      $scope.user = data.user;
-      $scope.latest_tweets = data.latest_tweets;
+    .success(function getTweeckrUserWithSuccess(data) {
+      console.log('success', data);
+      $scope.$apply(function() {
+        $scope.user = data.user;
+        // just to get a bigger image
+        $scope.user.profile_image_url = $scope.user.profile_image_url.replace('normal', '200x200');
+        $scope.latest_tweets = data.latest_tweets;
+      });
     })
     .fail(function getTweeckrUserWithFailure(error) {
       console.log('error', error);

@@ -45,8 +45,19 @@
         </div>
         <br>
 
-        {{ user }}
-        {{ latest_tweets }}
+        <div ng-if="user" class="text-center">
+          <img src="{{ user.profile_image_url }}" class="img-circle">
+          <h1>{{ user.name }} (<a href="//twitter.com/{{ user.screen_name }}" target="_blank">{{ user.screen_name }}</a>)</h1>
+        </div>
+
+        <div>
+          <ul>
+            <li ng-repeat="t in latest_tweets">
+              {{ t.text }}
+            </li>
+          </ul>
+        </div>
+
       </div>
 
     </div>
