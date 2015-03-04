@@ -10,6 +10,9 @@ API
 
 Run
 ---
+
+Edit your Twitter App access tokens in `/config.js`
+
 `$ make`
 
 
@@ -20,7 +23,10 @@ Test
 
 
 
+Deploy
+---
 
+Set environment variables for Twitter access tokens as defined in `/config.js`
 
 Client
 ===
