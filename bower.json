@@ -1,0 +1,25 @@
+{
+  "name": "tweeckr",
+  "version": "0.0.1",
+  "homepage": "https://github.com/geoffrey/tweeckr",
+  "authors": [
+    "Geoffrey Tisserand"
+  ],
+  "description": "Twitter background check as a service.",
+  "main": "css/main.css",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.2.18",
+    "jquery": "~2.1.1",
+    "bootstrap": "~3.1.1",
+    "font-awesome": "~4.1.0"
+  }
+}
