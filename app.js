@@ -4,12 +4,13 @@ var app = require('express')();
 
 // Modules
 var morgan = require('morgan');
+var cors   = require('cors');
 var parser = require('./middleware/http-parser');
 var errors = require('./middleware/errors-handler');
 
-
 // Middlewares
 app.use(morgan('tiny'));
+app.use(cors());
 parser(app);
 
 
