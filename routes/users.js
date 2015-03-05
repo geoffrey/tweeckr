@@ -14,7 +14,7 @@ router.get('/:screenname', function(req, res, next) {
   twitter.get('users/show', {
     screen_name: req.params.screenname
   }, function(err, user) {
-    if (err) return next(err);
+    if (err) return next({ status: err.statusCode });
 
     var twuser = _.omit(user, 'status');
     res.status(200).json({
@@ -31,7 +31,7 @@ router.get('/:screenname/tweets', function(req, res, next) {
     include_rts: false,
     trim_user: true
   }, function(err, tweets) {
-    if (err) return next(err);
+    if (err) return next({ status: err.statusCode });
 
     var latest_tweets = _.map(tweets, function(t) {
       return _.omit(t, 'user');
