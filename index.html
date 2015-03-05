@@ -39,7 +39,7 @@
                 <span class="input-group-addon">@</span>
                 <input class="form-control" type="text" ng-model="screenname" autofocus>
                 <span class="input-group-btn">
-                  <button class="btn btn-default" type="button">check!</button>
+                  <button class="btn btn-default" type="button" ng-click="check()">check!</button>
                 </span>
               </div>
             </div>
@@ -47,26 +47,28 @@
         </div>
         <br>
 
-        <div ng-if="user" class="row text-center">
-          <div>
-            <img ng-src="{{ user.profile_image_url }}" class="img-circle">
+        <div class="alert alert-danger" ng-if="apiError"> {{ apiError }} </div>
+        <div ng-if="user">
+          <div class="row text-center">
+            <div>
+              <img ng-src="{{ user.profile_image_url }}" class="img-circle">
+            </div>
+            <div>
+              <h3>{{ user.name }} - <a href="//twitter.com/{{ user.screen_name }}" target="_blank" class="small">@{{ user.screen_name }}</a></h3>
+              <h4 ng-if="reputation_score">Reputation score : <span class="label label-success">{{reputation_score}}pts</span></h4>
+            </div>
           </div>
+
+          <br/>
           <div>
-            <h3>{{ user.name }} - <a href="//twitter.com/{{ user.screen_name }}" target="_blank" class="small">@{{ user.screen_name }}</a></h3>
-            <h4 ng-if="reputation_score">Reputation score : <span class="label label-success">{{reputation_score}}pts</span></h4>
+            <ul>
+              <li ng-repeat="t in latest_tweets">
+                {{ t.text }}
+              </li>
+            </ul>
           </div>
-        </div>
 
-        <br/>
-        <div>
-          <ul>
-            <li ng-repeat="t in latest_tweets">
-              {{ t.text }}
-            </li>
-          </ul>
         </div>
-
-      </div>
 
     </div>
 

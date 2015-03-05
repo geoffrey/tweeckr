@@ -5,10 +5,13 @@ function MainCtrl($scope, API) {
     $scope.user = null;
     $scope.latest_tweets = [];
     $scope.reputation_score = null;
+    $scope.apiError = null;
   };
 
 
   var getProfileAndLatestTweets = function() {
+    init();
+
     if ($scope.screenname === '') return;
 
     $.when(
@@ -30,6 +33,15 @@ function MainCtrl($scope, API) {
     })
     .fail(function(err) {
       console.error('Fail', err);
+
+      var error = 'Oops something unexpected happened. Please try again.';
+      if (err.status === 404) {
+        error = 'This user does not exist.';
+      }
+      $scope.$apply(function() {
+        init();
+        $scope.apiError = error;
+      });
     });
   };
 
@@ -40,9 +52,7 @@ function MainCtrl($scope, API) {
   };
 
 
-  init();
   getProfileAndLatestTweets();
-
 }
 
 
