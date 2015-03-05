@@ -5,36 +5,49 @@ var async     = require('async');
 var twitter   = require('../utils/twitter');
 
 
-router.get('/:screenname', function(req, res, next) {
-  var screenname = req.params.screenname;
+var computeReputationScore = function() {
+  return 1337;
+};
 
-  async.parallel({
-    user: function(cb) {
-      twitter.get('users/show', {
-        screen_name: screenname
-      }, cb);
-    },
-    latest_tweets: function(cb) {
-      twitter.get('statuses/user_timeline', {
-        screen_name: screenname,
-        count: 100,
-        include_rts: false,
-        trim_user: true
-      }, cb);
-    }
-  }, function(err, results) {
+
+router.get('/:screenname', function(req, res, next) {
+  twitter.get('users/show', {
+    screen_name: req.params.screenname
+  }, function(err, user) {
     if (err) return next(err);
 
-    // Trim response data to reduce payload
-    var user = _.omit(results.user[0], 'status');
-    var latest_tweets = _.map(results.latest_tweets[0], function(t) {
+    var twuser = _.omit(user, 'status');
+    res.status(200).json({
+      user: twuser
+    });
+  });
+});
+
+
+router.get('/:screenname/tweets', function(req, res, next) {
+  twitter.get('statuses/user_timeline', {
+    screen_name: req.params.screenname,
+    count: 100,
+    include_rts: false,
+    trim_user: true
+  }, function(err, tweets) {
+    if (err) return next(err);
+
+    var latest_tweets = _.map(tweets, function(t) {
       return _.omit(t, 'user');
     });
-
     res.status(200).json({
-      user: user,
       latest_tweets: latest_tweets
     });
+  });
+});
+
+
+router.get('/:screenname/reputation', function(req, res, next) {
+  var score = computeReputationScore();
+
+  res.status(200).json({
+    reputation_score: score
   });
 });
 
