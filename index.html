@@ -84,7 +84,7 @@
           <br/>
           <div>
             <ul class="list-group">
-              <li class="list-group-item" ng-repeat="t in latest_tweets">
+              <li class="list-group-item" ng-repeat="t in latest_tweets | matchFilters : picturesOnly : minRetweets">
                 <span class="label {{ t.reputation_score | label }}"> {{ t.reputation_score }}</span>
                 <span class="small text-muted" title="{{ t.created_at }}">{{ t.created_at | timeago }}</span> -
                 <span class="text-muted">{{ t.retweet_count }} <i class="glyphicon glyphicon-retweet"></i></span> -

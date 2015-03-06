@@ -4,6 +4,10 @@ function MainCtrl($scope, $location, API) {
   $scope.screenname = $location.path().substr(1) || window.localStorage.screenname || 'geoffrey___';
   $location.path($scope.screenname);
 
+  $scope.minRetweets = 0;
+  $scope.picturesOnly = false;
+
+
   var init = function() {
     $scope.user = null;
     $scope.latest_tweets = [];
