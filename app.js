@@ -1,29 +1,15 @@
 // Express app
 var app = require('express')();
 
-
-// Modules
-var morgan = require('morgan');
-var cors   = require('cors');
-var parser = require('./middleware/http-parser');
-var errors = require('./middleware/errors-handler');
-
 // Middlewares
-app.use(morgan('tiny'));
-app.use(cors());
-parser(app);
-
+require('./middleware/http-parser')(app)
 
 // Routes
 app.use('/users', require('./routes/users'));
 
-
 // Error handling
-errors(app);
+require('./middleware/errors-handler')(app);
 
 
-// Start the API
-app.set('port', process.env.PORT || 5000);
-var server = app.listen(app.get('port'), function() {
-  console.log('Tweeckr API running on port ' + server.address().port);
-});
+module.exports = app;
+

@@ -1,4 +1,9 @@
-start:
+install:
 	npm prune
 	npm install
-	node app.js
+
+test: install
+	npm test
+
+run: install
+	npm start
