@@ -5,22 +5,28 @@ var positiveWords = require('../data/positive-words');
 
 var Analyser = {
 
+  /**
+   *  Get a sentiment score for a tweet
+   *  A tweet sentiment score is the sum of each word's sentiment score
+   */
   getWeightForTweet: function(tweet) {
     if (!_.isString(tweet)) {
       return 0;
     }
 
     var words = tweet.split(' ');
-    var weight = 0;
-
-    _.each(words, function(w) {
-      weight += Analyser.getWeightForWord(w);
-    });
-
-    return weight;
+    return _.reduce(words, function(memo, w){
+      return memo + Analyser.getWeightForWord(w);
+    }, 0);
   },
 
 
+  /**
+   *  Get a sentiment score for a word
+   *  If the word is positive, return 1
+   *  If the word is negative, return -1
+   *  else return 0
+   */
   getWeightForWord: function(word) {
     if (!_.isString(word)) {
       return 0;
@@ -39,5 +45,6 @@ var Analyser = {
     return 0;
   }
 }
+
 
 module.exports = Analyser;
