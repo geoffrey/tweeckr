@@ -1,1 +1,1 @@
-angular.module('tweeckrApp', []);
+angular.module('tweeckrApp', ['ui.bootstrap']);

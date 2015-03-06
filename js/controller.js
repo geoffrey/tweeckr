@@ -1,13 +1,16 @@
 function MainCtrl($scope, $location, API) {
 
-  // Get the screenname from path - localStorage or default
+  // Init screenname from path or localStorage or default
   $scope.screenname = $location.path().substr(1) || window.localStorage.screenname || 'geoffrey___';
   $location.path($scope.screenname);
 
+  // Init filters
   $scope.minRetweets = 0;
+  $scope.minStars = 0;
   $scope.picturesOnly = false;
 
 
+  // Init fetched data
   var init = function() {
     $scope.user = null;
     $scope.latest_tweets = [];
@@ -17,14 +20,17 @@ function MainCtrl($scope, $location, API) {
 
 
   function _getUserAndLatestTweetsWithSuccess(user, tweets) {
-    console.info('Done', arguments);
-
     $scope.$apply(function() {
       $scope.user = user[0].user;
       // just to get a bigger image
       $scope.user.profile_image_url = $scope.user.profile_image_url.replace('normal', '200x200');
 
       $scope.latest_tweets = tweets[0].latest_tweets;
+
+      // Compute global reputation score for the user
+      // Very basic computation :
+      // it is the sum of the user profile reputation score
+      // and the reputation of its latest tweets
       $scope.reputation_score = tweets[0].tweets_reputation_score +
         user[0].user_reputation_score;
     });
@@ -32,8 +38,6 @@ function MainCtrl($scope, $location, API) {
 
 
   function _getUserAndLatestTweetsWithError(err) {
-    console.error('Fail', err);
-
     var error;
     switch (err.status) {
       case 404:
@@ -47,18 +51,15 @@ function MainCtrl($scope, $location, API) {
     }
 
     $scope.$apply(function() {
-      init();
       $scope.apiError = error;
     });
   }
 
-
+  // Call our service to fetch user profile and latest tweets in parallel
   var getProfileAndLatestTweets = function() {
+    if ($scope.screenname === '') return;
     init();
 
-    if ($scope.screenname === '') return;
-
-    // Get User profile and Latest Tweets in parallel
     $.when(
       API.getUser($scope.screenname),
       API.getTweets($scope.screenname)
@@ -68,6 +69,7 @@ function MainCtrl($scope, $location, API) {
   };
 
 
+  // When pressing enter in screenname input or clicking check btn
   $scope.check = function() {
     window.localStorage.screenname = $scope.screenname;
     $location.path($scope.screenname);
@@ -75,6 +77,15 @@ function MainCtrl($scope, $location, API) {
   };
 
 
+  // When clicking calendar icons
+  $scope.openDatePicker = function($event, pickerName) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    $scope[pickerName] = true;
+  };
+
+
+  // Run the check for the default user on page load
   getProfileAndLatestTweets();
 }
 
