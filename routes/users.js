@@ -3,7 +3,7 @@ var express   = require('express');
 var router    = express.Router();
 var async     = require('async');
 var twitter   = require('../utils/twitter');
-
+var Analyser  = require('../utils/analyser');
 
 var computeReputationScore = function() {
   return 1337;
@@ -17,8 +17,11 @@ router.get('/:screenname', function(req, res, next) {
     if (err) return next({ status: err.statusCode });
 
     var twuser = _.omit(user, 'status');
+    var userReputationScore = twuser.followers_count;
+
     res.status(200).json({
-      user: twuser
+      user: twuser,
+      user_reputation_score: userReputationScore
     });
   });
 });
@@ -36,18 +39,17 @@ router.get('/:screenname/tweets', function(req, res, next) {
     var latest_tweets = _.map(tweets, function(t) {
       return _.omit(t, 'user');
     });
-    res.status(200).json({
-      latest_tweets: latest_tweets
+
+    var tweetsReputationScore = 0;
+    _.each(latest_tweets, function(t) {
+      t.reputation_score = Analyser.getWeightForTweet(t.text);
+      tweetsReputationScore += t.reputation_score;
     });
-  });
-});
 
-
-router.get('/:screenname/reputation', function(req, res, next) {
-  var score = computeReputationScore();
-
-  res.status(200).json({
-    reputation_score: score
+    res.status(200).json({
+      latest_tweets: latest_tweets,
+      tweets_reputation_score: tweetsReputationScore
+    });
   });
 });
 

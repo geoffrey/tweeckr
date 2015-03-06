@@ -53,20 +53,4 @@ describe('Tweeckr API', function() {
     });
   });
 
-
-  describe('GET /users/:screenname/reputation', function(){
-    it('should get the reputation of an existing user', function(done){
-      request(app)
-      .get('/users/geoffrey___/reputation')
-      .expect(200)
-      .end(function(err, res) {
-        res.body.reputation_score
-        .should.be.a.Number;
-
-        done();
-      });
-    });
-
-  });
-
 });
