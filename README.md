@@ -9,7 +9,7 @@ API
 
 https://tweeckr.herokuapp.com/
 
-[API Doc]('https://github.com/geoffrey/tweeckr/API.md')
+[API Doc](https://github.com/geoffrey/tweeckr/blob/master/API.md)
 
 
 Test
