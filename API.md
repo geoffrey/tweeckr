@@ -54,7 +54,8 @@ Response
       url: "http://t.co/TDJUfoXMsu",
       utc_offset: -28800,
       verified: false
-    }
+    },
+    user_reputation_score: 1337
   }
 ```
 
@@ -86,23 +87,15 @@ Response
       in_reply_to_user_id_str: "13334762",
       lang: "en",
       place: null,
+      reputation_score: 0,
       retweet_count: 0,
       retweeted: false,
       source: "<a href="http://twitter.com" rel="nofollow">Twitter Web Client</a>",
       text: "@github @GitHubAPI any reason why label updates are not picked up by the issue list endpoint when using ,the since parameter? The rest is ok",
       truncated: false
     }
-  ]
+  ],
+  tweets_reputation_score: 1337
 }
 
-```
-User reputation
-===
-
-Request
----
-`GET /users/:screenname/reputation`
-
-Response
----
 
