@@ -1,13 +1,8 @@
 var morgan  = require('morgan');
-var cors    = require('cors');
 var app     = require('./app');
 
 // Logger
 app.use(morgan('tiny'));
-
-// To allow cross origin resource sharing
-// /!\ For Production it'd be better to use a dynamic domain whitelist
-app.use(cors());
 
 // Start the API
 app.set('port', process.env.PORT || 5000);
