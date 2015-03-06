@@ -10,12 +10,14 @@
     <script src="bower_components/jquery/dist/jquery.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="bower_components/angular/angular.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="bower_components/moment/moment.js" type="text/javascript" charset="utf-8"></script>
 
     <script src="js/app.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/constant.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/controller.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/service.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/directive.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/filter.js" type="text/javascript" charset="utf-8"></script>
 
     <link href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" type="text/css">
 
@@ -75,15 +77,26 @@
             </div>
             <div>
               <h3>{{ user.name }} - <a href="//twitter.com/{{ user.screen_name }}" target="_blank" class="small">@{{ user.screen_name }}</a></h3>
-              <h4 ng-if="reputation_score">Reputation score : <span class="label label-success">{{reputation_score}}pts</span></h4>
+              <h4 ng-if="reputation_score">Reputation score : <span class="label {{ reputation_score | label }}">{{ reputation_score }}pts</span></h4>
             </div>
           </div>
 
           <br/>
           <div>
-            <ul>
-              <li ng-repeat="t in latest_tweets">
-                {{ t.text }}
+            <ul class="list-group">
+              <li class="list-group-item" ng-repeat="t in latest_tweets">
+                <span class="label {{ t.reputation_score | label }}"> {{ t.reputation_score }}</span>
+                <span class="small text-muted" title="{{ t.created_at }}">{{ t.created_at | timeago }}</span> -
+                <span class="text-muted">{{ t.retweet_count }} <i class="glyphicon glyphicon-retweet"></i></span> -
+                <span class="text-muted">{{ t.favorite_count }} <i class="glyphicon glyphicon-star"></i></span> -
+                <a href="//twitter.com/{{ user.screen_name }}/status/{{ t.id_str }}" target="_blank">{{ t.text }}</a>
+                <br/>
+                <br/>
+                <ul class="list-group">
+                  <li ng-repeat="m in t.extended_entities.media">
+                    <img ng-src="{{ m.media_url }}" class="img-thumbnail">
+                  </li>
+                </ul>
               </li>
             </ul>
           </div>
