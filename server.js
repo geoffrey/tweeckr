@@ -1,8 +1,5 @@
-var morgan  = require('morgan');
-var app     = require('./app');
+var app = require('./app');
 
-// Logger
-app.use(morgan('tiny'));
 
 // Start the API
 app.set('port', process.env.PORT || 5000);

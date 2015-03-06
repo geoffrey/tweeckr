@@ -1,6 +1,9 @@
 // Express app
 var app = require('express')();
 
+// Logger
+app.use(require('morgan')('tiny'));
+
 // Middleware
 require('./middleware/http-parser')(app)
 
